@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PVR Cloud Tech – Azure Data Engineer Training & Placement</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
+      background-color: #f8fafc;
+      color: #0b1e33;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    h1, h2, h3, h4 {
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* announcement ticker */
+    .announcement-bar {
+      background: #0a2647;
+      color: white;
+      padding: 10px 0;
+      font-weight: 500;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+    }
+    .announcement-bar .ticker {
+      display: inline-block;
+      animation: ticker 25s linear infinite;
+    }
+    .announcement-bar .ticker span {
+      margin-right: 40px;
+    }
+    .announcement-bar .ticker i {
+      margin-right: 8px;
+      color: #f2b84b;
+    }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* navbar */
+    .navbar {
+      background-color: #ffffff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .logo a {
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #0a2647, #1e4a6f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+    }
+    .logo span {
+      background: none;
+      -webkit-text-fill-color: #1e3a8a;
+      font-weight: 300;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #1e293b;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+    .nav-links a:hover { color: #2563eb; }
+    .login-btn {
+      background: #0a2647;
+      color: white !important;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-weight: 600;
+    }
+    .login-btn:hover { background: #1e3a8a; }
+
+    /* buttons */
+    .btn-primary {
+      background: #0a2647;
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 8px 18px rgba(10,38,71,0.15);
+      display: inline-block;
+      text-decoration: none;
+    }
+    .btn-primary:hover {
+      background: #143b66;
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      background: white;
+      color: #0a2647;
+      border: 1px solid #cddae9;
+      padding: 12px 28px;
+      border-radius: 60px;
+      font-weight: 600;
+      transition: 0.2s;
+      display: inline-block;
+      text-decoration: none;
+    }
+    .btn-secondary:hover {
+      border-color: #0a2647;
+      background: #f0f7ff;
+    }
+
+    /* hero */
+    .hero {
+      padding: 60px 0 40px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 0.9fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(145deg, #0a2647, #2563eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-tagline {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: #1e4a6f;
+      margin-bottom: 20px;
+    }
+    .tech-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 20px;
+      margin: 20px 0;
+    }
+    .tech-strip span {
+      background: #e6f0ff;
+      padding: 6px 16px;
+      border-radius: 40px;
+      font-weight: 500;
+      color: #0a2647;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin: 32px 0;
+    }
+
+    .batch-card {
+      background: white;
+      padding: 32px;
+      border-radius: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+      border: 1px solid rgba(0,112,243,0.1);
+    }
+    .batch-card .badge {
+      background: #f2b84b;
+      color: #1e293b;
+      padding: 6px 16px;
+      border-radius: 40px;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    .batch-date {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0a2647;
+      margin: 8px 0;
+    }
+    .batch-time {
+      color: #4b5563;
+      margin-bottom: 24px;
+    }
+
+    /* stats */
+    .stats {
+      background: white;
+      padding: 30px 0;
+      border-radius: 60px 60px 0 0;
+      margin-top: 30px;
+    }
+    .stats-grid {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 30px;
+      text-align: center;
+    }
+    .stat-item h3 {
+      font-size: 2.2rem;
+      color: #0a2647;
+    }
+    .stat-item p { font-weight: 500; color: #334155; }
+
+    /* sections */
+    .section-title {
+      font-size: 2.2rem;
+      margin-bottom: 40px;
+      color: #0b1e33;
+      position: relative;
+    }
+    .section-title:after {
+      content: '';
+      width: 70px;
+      height: 4px;
+      background: #2563eb;
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      border-radius: 4px;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 24px;
+      margin: 40px 0;
+    }
+    .tech-card {
+      background: white;
+      padding: 24px 16px;
+      border-radius: 24px;
+      text-align: center;
+      box-shadow: 0 8px 20px #e2e8f0;
+      transition: 0.15s;
+      border: 1px solid #eef2f6;
+    }
+    .tech-card i { font-size: 2.2rem; color: #1e4a6f; margin-bottom: 12px; }
+    .tech-card h4 { font-size: 1.1rem; }
+
+    .double-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    .info-card {
+      background: white;
+      padding: 30px;
+      border-radius: 32px;
+      box-shadow: 0 12px 30px #e9edf2;
+    }
+    .trainer-highlight {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-top: 20px;
+      background: #f0f7ff;
+      padding: 20px;
+      border-radius: 24px;
+    }
+    .trainer-icon {
+      width: 70px;
+      height: 70px;
+      background: #0a2647;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+    }
+
+    .testimonial {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 28px;
+      box-shadow: 0 12px 30px #e2e8f0;
+    }
+    .stars { color: #f5b342; font-size: 1.3rem; margin: 10px 0; }
+
+    .faq-item {
+      background: white;
+      border-radius: 20px;
+      padding: 18px 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px #eef2f6;
+    }
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .faq-answer {
+      padding-top: 12px;
+      color: #2d3a4f;
+      display: none;
+    }
+    .faq-item.open .faq-answer { display: block; }
+
+    .course-selector {
+      background: white;
+      border-radius: 40px;
+      padding: 40px;
+      box-shadow: 0 20px 40px #d9e2ef;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      align-items: flex-end;
+    }
+    .select-group {
+      flex: 1 1 200px;
+    }
+    .select-group label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .select-group select {
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 60px;
+      border: 1px solid #cbd5e1;
+      background: white;
+      font-size: 1rem;
+    }
+
+    .contact-block {
+      background: #0a2647;
+      color: white;
+      border-radius: 40px;
+      padding: 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    footer {
+      background: #0a1a2f;
+      color: #b0c6da;
+      padding: 50px 0 20px;
+      border-radius: 48px 48px 0 0;
+      margin-top: 60px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+      gap: 30px;
+    }
+    .footer-col a { color: #b0c6da; text-decoration: none; display: block; margin: 8px 0; }
+    .footer-col a:hover { color: white; }
+    .copyright {
+      text-align: center;
+      padding-top: 40px;
+      color: #7f95b5;
+    }
+
+    /* new components */
+    .badge-blue {
+      background: #2563eb10;
+      color: #2563eb;
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+      gap: 24px;
+      margin: 30px 0;
+    }
+
+    .module-card {
+      background: white;
+      border-radius: 28px;
+      padding: 26px 20px;
+      box-shadow: 0 8px 18px #e2e8f0;
+      transition: 0.2s;
+      border-left: 5px solid #2563eb;
+    }
+    .module-card h4 { font-size: 1.3rem; margin-bottom: 12px; }
+    .module-card ul { list-style: none; }
+    .module-card li { margin: 8px 0; display: flex; align-items: center; gap: 8px; }
+
+    .alumni-logos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      margin: 40px 0;
+      filter: grayscale(0.4);
+      opacity: 0.8;
+    }
+    .alumni-logos .logo-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 1rem;
+      color: #2d4b6e;
+    }
+    .alumni-logos i {
+      font-size: 3rem;
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 24px;
+      margin: 40px 0;
+    }
+    .blog-card {
+      background: white;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px #e2e8f0;
+    }
+    .blog-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .blog-content { padding: 20px; }
+    .blog-content h4 { font-size: 1.2rem; margin-bottom: 8px; }
+
+    .trainer-social a {
+      color: #2563eb;
+      margin-right: 16px;
+      font-size: 1.4rem;
+    }
+
+    .callback-form {
+      background: white;
+      border-radius: 32px;
+      padding: 40px;
+      box-shadow: 0 20px 40px #d0ddeb;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .form-group {
+      flex: 1 1 200px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 16px 24px;
+      border-radius: 60px;
+      border: 1px solid #cbd5e1;
+      font-size: 1rem;
+    }
+
+    .partners-strip {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 30px 0;
+    }
+    .partners-strip i {
+      font-size: 2.5rem;
+      color: #3a5f8b;
+    }
+
+    /* floating whatsapp */
+    .floating-wa {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #25D366;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      z-index: 99;
+      transition: 0.2s;
+      text-decoration: none;
+    }
+    .floating-wa:hover { transform: scale(1.1); background: #20b859; }
+
+    /* responsive */
+    @media (max-width: 800px) {
+      .hero-grid, .double-grid, .contact-block, .blog-grid { grid-template-columns: 1fr; }
+      .nav-container { flex-direction: column; gap: 16px; }
+      .nav-links { justify-content: center; }
+      .hero h1 { font-size: 2rem; }
+      .module-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- floating whatsapp -->
+  <a href="#" class="floating-wa"><i class="fab fa-whatsapp"></i></a>
+
+  <!-- announcement ticker (new) -->
+  <div class="announcement-bar">
+    <div class="ticker">
+      <span><i class="fas fa-bullhorn"></i> 🚀 New batch starts 28th Feb 2026 – Azure Data Engineering</span>
+      <span><i class="fas fa-trophy"></i> 1500+ students placed – recent: Microsoft, Amazon, Deloitte</span>
+      <span><i class="fas fa-star"></i> Mr. Srinivas live workshop on Databricks every Saturday</span>
+      <span><i class="fas fa-video"></i> Free demo available – enroll now!</span>
+      <!-- duplicate for seamless loop -->
+      <span><i class="fas fa-bullhorn"></i> 🚀 New batch starts 28th Feb 2026 – Azure Data Engineering</span>
+      <span><i class="fas fa-trophy"></i> 1500+ students placed – recent: Microsoft, Amazon, Deloitte</span>
+      <span><i class="fas fa-star"></i> Mr. Srinivas live workshop on Databricks every Saturday</span>
+      <span><i class="fas fa-video"></i> Free demo available – enroll now!</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <div class="logo"><a href="#">PVR Cloud Tech<span>.</span></a></div>
+      <nav class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Courses</a>
+        <a href="#">New Batches</a>
+        <a href="#">Blog</a>
+        <a href="#">Contact Us</a>
+        <a href="#" class="login-btn">Log in</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero section -->
+    <section class="hero container">
+      <div class="hero-grid">
+        <div>
+          <span class="badge-blue"><i class="far fa-clock"></i> Limited seats for Feb batch</span>
+          <h1>Azure Data Engineering <br>Mastery Program</h1>
+          <div class="hero-tagline">Full Stack Data Engineering in Cloud (Azure)</div>
+          <div class="tech-strip">
+            <span>Python</span><span>SQL</span><span>Data Warehousing</span><span>Big Data</span><span>ADLS</span>
+            <span>ADF</span><span>Databricks</span><span>Synapse</span><span>Fabric</span><span>Power BI</span>
+          </div>
+          <p style="margin: 20px 0; color:#2d445b;">100% Placement Assistance · Real-time projects · Interview prep</p>
+          <div class="hero-buttons">
+            <a href="#" class="btn-primary">Enroll for Demo <i class="fas fa-arrow-right"></i></a>
+            <a href="#" class="btn-secondary">View Content</a>
+          </div>
+        </div>
+        <div class="batch-card">
+          <span class="badge"><i class="fas fa-calendar-alt"></i> New batch starting</span>
+          <div class="batch-date">28th Feb, 2026</div>
+          <div class="batch-time"><i class="far fa-clock"></i> 10:00 AM - 11:00 AM IST</div>
+          <p style="margin-bottom: 24px; font-weight: 600;">Azure Data Engineering Course (ADF + Databricks + Synapse + Fabric)</p>
+          <a href="#" class="btn-primary" style="width:100%; text-align:center;">Register Now →</a>
+          <p style="text-align:center; margin-top:16px; font-size:0.9rem;"><i class="fas fa-video"></i> Free demo · No credit card</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- stats -->
+    <section class="stats">
+      <div class="container stats-grid">
+        <div class="stat-item"><h3>1500+</h3><p>Students Trained</p></div>
+        <div class="stat-item"><h3>50+</h3><p>Batches</p></div>
+        <div class="stat-item"><h3>12+ Yrs</h3><p>Trainer Experience</p></div>
+        <div class="stat-item"><h3>4.7★</h3><p>100+ Google reviews</p></div>
+      </div>
+    </section>
+
+    <!-- what you will learn (icons) -->
+    <section class="container" style="margin-top: 70px;">
+      <h2 class="section-title">What you will learn in this course?</h2>
+      <div class="card-grid">
+        <div class="tech-card"><i class="fas fa-database"></i><h4>Python & SQL</h4></div>
+        <div class="tech-card"><i class="fas fa-warehouse"></i><h4>Data Warehousing</h4></div>
+        <div class="tech-card"><i class="fas fa-cloud"></i><h4>Azure Data Lake</h4></div>
+        <div class="tech-card"><i class="fas fa-code-branch"></i><h4>Data Factory</h4></div>
+        <div class="tech-card"><i class="fas fa-cubes"></i><h4>Databricks</h4></div>
+        <div class="tech-card"><i class="fas fa-chart-bar"></i><h4>Synapse Analytics</h4></div>
+        <div class="tech-card"><i class="fas fa-key"></i><h4>Key Vault</h4></div>
+        <div class="tech-card"><i class="fas fa-power-off"></i><h4>Power BI</h4></div>
+        <div class="tech-card"><i class="fas fa-microsoft"></i><h4>Microsoft Fabric</h4></div>
+      </div>
+    </section>
+
+    <!-- Comprehensive Curriculum (expanded modules) -->
+    <section class="container" style="margin-top: 70px;">
+      <h2 class="section-title">Comprehensive Curriculum</h2>
+      <div class="module-grid">
+        <div class="module-card"><h4>📊 Data Factory</h4><ul><li><i class="fas fa-check-circle" style="color:#2563eb;"></i> ETL/ELT pipelines</li><li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Triggers & events</li><li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Data flows</li></ul></div>
+        <div class="module-card"><h4>🔥 Databricks (PySpark)</h4><ul><li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Spark SQL & DataFrames</li><li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Delta Lake</li><li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Optimization</li></ul></div>
+        <div class="module-card"><h4>🧠 Synapse Analytics</h4><ul><li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Serverless & dedicated pools</li><li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Data integration</li><li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Pipelines</li></ul></div>
+        <div class="module-card"><h4>📁 Microsoft Fabric</h4><ul><li><i class="fas fa-check-circle" style="color:#2563eb;"></i> OneLake</li><li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Data engineering</li><li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Real-time analytics</li></ul></div>
+      </div>
+      <div style="text-align:center; margin:30px 0;"><a href="#" class="btn-secondary">📄 Download detailed syllabus (PDF)</a></div>
+    </section>
+
+    <!-- double: you will learn list + why choose us / trainer -->
+    <section class="container double-grid" style="margin: 70px auto;">
+      <div class="info-card">
+        <h3 style="margin-bottom: 20px;">📘 You Will Learn</h3>
+        <ul style="columns: 2; list-style: none;">
+          <li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Azure Data Factory (ETL)</li>
+          <li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Azure Databricks + PySpark</li>
+          <li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Synapse Analytics</li>
+          <li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Data Warehousing</li>
+          <li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Microsoft Fabric</li>
+          <li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Python & SQL Server</li>
+          <li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Azure DevOps (Repos)</li>
+          <li><i class="fas fa-check-circle" style="color:#2563eb;"></i> Power BI</li>
+        </ul>
+        <a href="#" class="btn-secondary" style="margin-top: 25px;">Register for Demo →</a>
+      </div>
+      <div class="info-card">
+        <h3>Why Choose Us?</h3>
+        <p style="margin: 16px 0;">PVR Cloud Tech is a real-time & placement training centre. Experts with 12+ years hands-on cloud projects. Online/offline flexible mode.</p>
+        <div class="trainer-highlight">
+          <div class="trainer-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+          <div><strong>Mr. Srinivas</strong> (12+ Yrs Exp) <br> <span style="color:#1e4a6f;">Azure Data Engineer Expert</span></div>
+        </div>
+        <p style="margin-top: 16px;">✔️ Handled 3 levels: Freshers, Devs, Managers <br> ✔️ 1500+ students placed</p>
+        <div class="trainer-social" style="margin-top: 20px;">
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Placement Assistance & Alumni (fixed) -->
+    <section class="container" style="margin: 50px auto;">
+      <h2 class="section-title">100% Placement Assistance</h2>
+      <div class="card-grid" style="grid-template-columns: repeat(4,1fr);">
+        <div class="tech-card" style="text-align:left;"><i class="fas fa-file-alt"></i><h4>Resume Building</h4><p>Expert review & ATS optimization</p></div>
+        <div class="tech-card" style="text-align:left;"><i class="fas fa-users"></i><h4>Mock Interviews</h4><p>1-on-1 with industry experts</p></div>
+        <div class="tech-card" style="text-align:left;"><i class="fas fa-briefcase"></i><h4>Job referrals</h4><p>100+ hiring partners</p></div>
+        <div class="tech-card" style="text-align:left;"><i class="fas fa-chart-line"></i><h4>Career guidance</h4><p>Profile mapping & LinkedIn</p></div>
+      </div>
+      <div style="margin-top: 40px;">
+        <h3 style="margin-bottom: 20px;">Our alumni work at</h3>
+        <div class="alumni-logos">
+          <div class="logo-item"><i class="fab fa-microsoft"></i><span>Microsoft</span></div>
+          <div class="logo-item"><i class="fab fa-amazon"></i><span>Amazon</span></div>
+          <div class="logo-item"><i class="fab fa-google"></i><span>Google</span></div>
+          <div class="logo-item"><i class="fas fa-database"></i><span>Oracle</span></div>
+          <div class="logo-item"><i class="fas fa-chart-pie"></i><span>Deloitte</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- feature cards (learn from experts, pace, 90days) -->
+    <section class="container">
+      <div class="card-grid" style="grid-template-columns: repeat(3,1fr);">
+        <div class="tech-card" style="text-align: left; padding: 30px;"><i class="fas fa-user-tie" style="font-size:2rem;"></i><h4>Learn from Industry Experts</h4><p style="color:#3a4e66;">Certified professionals, real-world leaders</p></div>
+        <div class="tech-card" style="text-align: left; padding: 30px;"><i class="fas fa-clock"></i><h4>Learn at Your Own Pace</h4><p>Live online/offline, recordings available</p></div>
+        <div class="tech-card" style="text-align: left; padding: 30px;"><i class="fas fa-rocket"></i><h4>ADE Expert in 90 Days</h4><p>Data Factory, Databricks, Synapse</p></div>
+      </div>
+    </section>
+
+    <!-- Testimonials + FAQ -->
+    <section class="container double-grid" style="margin: 60px auto;">
+      <div class="testimonial">
+        <i class="fas fa-quote-left" style="color:#2563eb; font-size:2rem; opacity:0.3;"></i>
+        <h3>Trusted by thousands</h3>
+        <div class="stars">★★★★★ 4.7/5</div>
+        <p style="font-weight: 500;">“Real-time training, excellent placement support. The Azure curriculum is vast and up-to-date.” – Priya S.</p>
+        <p style="margin-top: 16px;"><i class="fas fa-google"></i>  100+ Google reviews</p>
+      </div>
+      <div>
+        <h3 class="section-title" style="font-size: 1.8rem;">FAQ's</h3>
+        <div class="faq-item">
+          <div class="faq-question">Will I get recordings if I miss a live session? <i class="fas fa-chevron-down"></i></div>
+          <div class="faq-answer">Yes, full recordings and materials are shared within 24h.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">Are there any prerequisites? <i class="fas fa-chevron-down"></i></div>
+          <div class="faq-answer">Basic IT knowledge recommended, but we cover fundamentals.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">How can I request a refund? <i class="fas fa-chevron-down"></i></div>
+          <div class="faq-answer">Full refund within 7 days if not satisfied (terms apply).</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upcoming Batches -->
+    <section class="container">
+      <h2 class="section-title">📅 Upcoming Batches</h2>
+      <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+        <div style="flex:1; background:white; border-radius:28px; padding:24px; box-shadow: 0 12px 24px #e2e8f0;">
+          <span class="badge-blue"><i class="fas fa-fire"></i> Morning</span>
+          <h4 style="margin: 16px 0;">Azure Data Engineering</h4>
+          <p><i class="far fa-calendar-alt"></i> 28 Feb 2026, 10 AM IST</p>
+          <p><i class="fas fa-user"></i> Mr. Srinivas</p>
+          <a href="#" class="btn-secondary" style="padding:8px 20px;">Register</a>
+        </div>
+        <div style="flex:1; background:white; border-radius:28px; padding:24px; box-shadow: 0 12px 24px #e2e8f0;">
+          <span class="badge-blue"><i class="fas fa-moon"></i> Evening</span>
+          <h4 style="margin: 16px 0;">Snowflake + DBT + Airflow</h4>
+          <p><i class="far fa-calendar-alt"></i> 5 Mar 2026, 7 PM IST</p>
+          <p><i class="fas fa-user"></i> Industry expert</p>
+          <a href="#" class="btn-secondary" style="padding:8px 20px;">Register</a>
+        </div>
+        <div style="flex:1; background:white; border-radius:28px; padding:24px; box-shadow: 0 12px 24px #e2e8f0;">
+          <span class="badge-blue"><i class="fas fa-weekend"></i> Weekend</span>
+          <h4 style="margin: 16px 0;">Power BI + SQL</h4>
+          <p><i class="far fa-calendar-alt"></i> 1 Mar 2026, 8 AM IST</p>
+          <p><i class="fas fa-user"></i> Ms. Lakshmi</p>
+          <a href="#" class="btn-secondary" style="padding:8px 20px;">Register</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest from blog -->
+    <section class="container" style="margin: 70px auto;">
+      <h2 class="section-title">Latest from our blog</h2>
+      <div class="blog-grid">
+        <div class="blog-card">
+          <img src="https://placehold.co/600x400/0a2647/white?text=Azure+Data+Factory" alt="blog">
+          <div class="blog-content">
+            <h4>Building scalable ETL with ADF</h4>
+            <p>5 min read · <i class="far fa-calendar"></i> Feb 12</p>
+          </div>
+        </div>
+        <div class="blog-card">
+          <img src="https://placehold.co/600x400/1e4a6f/white?text=Databricks+Tips" alt="blog">
+          <div class="blog-content">
+            <h4>Top 10 PySpark optimizations</h4>
+            <p>7 min read · <i class="far fa-calendar"></i> Feb 5</p>
+          </div>
+        </div>
+        <div class="blog-card">
+          <img src="https://placehold.co/600x400/2563eb/white?text=Fabric+vs+Synapse" alt="blog">
+          <div class="blog-content">
+            <h4>Microsoft Fabric: what's new?</h4>
+            <p>4 min read · <i class="far fa-calendar"></i> Jan 28</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- course selector dropdowns + enroll -->
+    <section class="container" style="margin: 50px auto;">
+      <div class="course-selector">
+        <div class="select-group">
+          <label>Choose Azure Data Engineering track</label>
+          <select>
+            <option>--Please choose an option--</option>
+            <option>Azure Data Engg (ADF+Databricks+Synapse+Fabric)</option>
+            <option>Snowflake + DBT + Airflow</option>
+            <option>Python</option>
+            <option>SQL Server</option>
+            <option>Power BI</option>
+          </select>
+        </div>
+        <div class="select-group">
+          <label>Select additional specialization</label>
+          <select>
+            <option>--Please choose an option--</option>
+            <option>Azure Data Engg (ADF+Databricks+Synapse+Fabric)</option>
+            <option>Snowflake + DBT + Airflow</option>
+            <option>Python</option>
+            <option>SQL Server</option>
+            <option>Power BI</option>
+          </select>
+        </div>
+        <a href="#" class="btn-primary" style="padding: 14px 36px;">Enroll Now</a>
+      </div>
+    </section>
+
+    <!-- Request a callback form -->
+    <section class="container" style="margin: 60px auto;">
+      <div class="callback-form">
+        <h3 style="width:100%;">Request a free callback from counsellor</h3>
+        <div class="form-group"><input type="text" placeholder="Your name"></div>
+        <div class="form-group"><input type="email" placeholder="Email address"></div>
+        <div class="form-group"><input type="tel" placeholder="Phone number"></div>
+        <div><a href="#" class="btn-primary">Call me back</a></div>
+      </div>
+    </section>
+
+    <!-- contact & address area -->
+    <section class="container" style="margin: 70px auto;">
+      <div class="contact-block">
+        <div>
+          <h3 style="color:white; margin-bottom: 20px;">Contact Info</h3>
+          <p><i class="fas fa-map-pin"></i> 2nd Floor, Next to Metro Pillar 1044, Above House of Milkshakes, Ameerpet, Hyderabad.</p>
+          <p><i class="fas fa-phone-alt"></i> +91 9346060794</p>
+          <p><i class="fas fa-envelope"></i> pvrcloudtech@gmail.com</p>
+        </div>
+        <div>
+          <h3 style="color:white; margin-bottom: 20px;">Quick links</h3>
+          <p>Home | About Us | New Batches | Enroll Now</p>
+          <p>Privacy Policy | Contact Us</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Partners strip -->
+    <section class="container">
+      <p style="text-align:center; font-weight:500;">Trusted by professionals from</p>
+      <div class="partners-strip">
+        <i class="fab fa-microsoft"></i>
+        <i class="fab fa-google"></i>
+        <i class="fab fa-amazon"></i>
+        <i class="fas fa-chart-pie"></i>
+        <i class="fas fa-database"></i>
+      </div>
+    </section>
+  </main>
+
+  <!-- footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <h4 style="color:white;">Azure Data Engineering</h4>
+        <a href="#">Azure Data Engineer Course</a>
+        <a href="#">Data Factory Course</a>
+        <a href="#">Databricks Course</a>
+        <a href="#">Synapse Analytics</a>
+        <a href="#">Power BI Course</a>
+        <a href="#">Python Course</a>
+        <a href="#">SQL Server Course</a>
+      </div>
+      <div class="footer-col">
+        <h4 style="color:white;">Support</h4>
+        <a href="#">Contact Us</a>
+        <a href="#">FAQ</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+      </div>
+      <div class="footer-col">
+        <h4 style="color:white;">New Batches</h4>
+        <a href="#">28th Feb 2026 - Azure</a>
+        <a href="#">Snowflake + DBT</a>
+        <a href="#">Power BI</a>
+      </div>
+      <div class="footer-col">
+        <h4 style="color:white;">Social</h4>
+        <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a>
+        <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
+        <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      </div>
+    </div>
+    <div class="container copyright">
+      <p>Copyright © 2026 PVR Cloud Tech. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- FAQ toggle JS -->
+  <script>
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.parentElement;
+        item.classList.toggle('open');
+        const icon = question.querySelector('i');
+        if (icon) icon.classList.toggle('fa-chevron-up');
+      });
+    });
+  </script>
+
+  <!-- hover effects -->
+  <style>
+    .tech-card:hover, .module-card:hover { transform: translateY(-6px); box-shadow: 0 20px 30px #cddae9; }
+    .faq-item { transition: 0.2s; }
+    .faq-item.open .faq-question i { transform: rotate(180deg); }
+    .faq-question i { transition: 0.2s; }
+  </style>
+</body>
+</html>
